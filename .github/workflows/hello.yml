@@ -12,3 +12,8 @@ jobs:
       - name: hello 
         run : | 
             echo "hello world!"
+      - name: show_date
+        run: date
+      - name: show_dirs
+        run: ls -l
+
