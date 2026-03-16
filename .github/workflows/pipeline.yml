@@ -31,8 +31,6 @@ jobs:
         run: npm run test
       - name: ent-to-end
         run: npm run test:e2e
-      - name: show if should skip
-        run: echo "$SHOULD_SKIP"
       - name: Deploy
         # Only run this step if the branch is main
         if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && env.SHOULD_SKIP != 'true'}}
