@@ -35,7 +35,7 @@ jobs:
         run: echo "$SHOULD_SKIP"
       - name: Deploy
         # Only run this step if the branch is main
-        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && !env.SHOULD_SKIP}}
+        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && env.SHOULD_SKIP != 'true'}}
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bump version and push tag
-        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && !env.SHOULD_SKIP}}
+        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && env.SHOULD_SKIP != 'true'}}
         uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
