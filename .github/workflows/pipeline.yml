@@ -1,5 +1,8 @@
 name: Deployment pipeline
 
+env: 
+  skip_deploy-tag: ${{ contains('#skip', join(toJson(github.event.commits.*.message))) }} 
+
 on:
   push:
     branches:
@@ -30,7 +33,7 @@ jobs:
         run: npm run test:e2e
       - name: Deploy
         # Only run this step if the branch is main
-        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push'}}
+        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && '${skip_deploy-tag}'}}
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
@@ -41,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bump version and push tag
-        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push'}}
+        if: ${{github.ref == 'refs/heads/main' && github.event_name == 'push' && '${skip_deploy-tag}'}}
         uses: anothrNick/github-tag-action@1.75.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
