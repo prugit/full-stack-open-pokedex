@@ -43,6 +43,8 @@ jobs:
         uses: rjstone/discord-webhook-notify@v2
         with:
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+            username: prugit
+            repository: ${{ github.repository }}
             severity: info
             details: All tests passed!
       - name: 
