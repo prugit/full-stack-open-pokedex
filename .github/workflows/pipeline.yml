@@ -51,9 +51,15 @@ jobs:
         if: ${{ failure() }}
         uses: rjstone/discord-webhook-notify@v2
         with:
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-            severity: error
-            details: failed test!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          description: |
+              **Repository:** ${{ github.repository }}
+              **Branch:** ${{ github.ref_name }}
+              **Commit:** ${{ github.sha }}
+              **Message:** ${{ github.event.head_commit.message }}
+              **Author:** ${{ github.event.head_commit.author.name }}
+              **Workflow:** ${{ github.workflow }}
+
 
   tag_release:
     needs: [simple_deployment_pipeline]
